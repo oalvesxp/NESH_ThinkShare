@@ -1,5 +1,5 @@
 const express = require('express')
-const { saveNote } = require('./db')
+const { saveNote, getNote } = require('./db')
 const app = express()
 const PORT = 3000
 

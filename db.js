@@ -27,6 +27,18 @@ const saveNote = (id, content) =>
     )
   })
 
+const getNote = (id) =>
+  new Promise((res, rej) => {
+    db.run(
+      `
+    SELECT * FROM notes WHERE id = ?
+    `,
+      [id],
+      (err, row) => (err ? rej(err) : res(row))
+    )
+  })
+
 module.exports = {
   saveNote,
+  getNote,
 }
