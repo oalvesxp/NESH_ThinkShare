@@ -20,20 +20,18 @@ app.post('/notes', async (req, res) => {
 
   if (!content) {
     return res.send(
-      `<span>Erro inesperado!</span>`
+      `<span class="error">Erro inesperado!</span>`
     ) /** retorna HTML para o HTMX */
   }
 
   const id = crypto.randomUUID()
   await saveNote(id, content)
-  res
-    .send(
+  res.send(
+    `
+        <p>Compartilhe sua nota através do link:</p>
+        <span>${req.headers.origin}/note/${id}</span>
       `
-      <p>Compartilhe sua nota através do link:</p>
-      <span>${req.headers.origin}/note/${id}</span>
-      `
-    )
-    .pipe(res.setHeader('Access-Control-Allow-Origin', origin))
+  )
 })
 
 app.get('/share/:id', async (req, res) => {
@@ -43,9 +41,7 @@ app.get('/share/:id', async (req, res) => {
   const note = await getNote(id)
 
   if (!note) {
-    res.send(
-      `<span class="content-error">Este post-it molhou e se desfez!</span>`
-    )
+    res.send(`<span class="error">Este post-it molhou e se desfez!</span>`)
   }
 
   if (!note.opened_at) {
