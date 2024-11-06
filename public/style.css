@@ -69,6 +69,14 @@ button:hover {
   background: hsl(0 0% 0% / 0.2);
 }
 
+button.htmx-request,
+button:disabled {
+  background: hsl(0 0% 0% / 0.15);
+  opacity: 0.8;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 #share-link {
   width: 24rem;
   text-align: center;
