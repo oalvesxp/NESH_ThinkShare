@@ -1,5 +1,5 @@
 const express = require('express')
-const { saveNote, getNote } = require('./db')
+const { saveNote, getNote, markAsOpened, deletedExpires } = require('./db')
 const app = express()
 const PORT = 3000
 
@@ -34,6 +34,23 @@ app.post('/notes', async (req, res) => {
       `
     )
     .pipe(res.setHeader('Access-Control-Allow-Origin', origin))
+})
+
+app.get('/share/:id', async (req, res) => {
+  await deletedExpires()
+
+  const { id } = req.params
+  const note = await getNote(id)
+
+  if (!note) {
+    res.send(
+      `<span class="content-error">Este post-it molhou e se desfez!</span>`
+    )
+  }
+
+  if (!note.opened_at) {
+    await markAsOpened(id)
+  }
 })
 
 app.listen(PORT, () => {
