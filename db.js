@@ -12,3 +12,21 @@ db.serialize(() => {
       )
   `)
 })
+
+const saveNote = (id, content) =>
+  new Promise((res, rej) => {
+    db.run(
+      `
+      INSERT INTO notes
+        (id, content)
+      VALUES
+        (?, ?)
+    `,
+      [id, content],
+      (err) => (err ? rej(err) : res())
+    )
+  })
+
+module.exports = {
+  saveNote,
+}
