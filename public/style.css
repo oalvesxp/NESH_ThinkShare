@@ -87,13 +87,22 @@ button:disabled {
   }
 
   & span {
-    color: hsl(206 100% 50%);
-    font-weight: 400;
     transition: all 0.2s ease;
-  }
 
-  & span:hover {
-    font-weight: 600;
-    cursor: pointer;
+    & a {
+      color: hsl(206 100% 50%);
+      font-weight: 400;
+      text-decoration: inherit;
+    }
+
+    & a:hover {
+      font-weight: 600;
+      cursor: pointer;
+    }
   }
+}
+
+#share-link .error,
+#content .error {
+  color: hsl(0 100% 50%);
 }

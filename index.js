@@ -10,10 +10,6 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html')
 })
 
-app.get('/note/:id', (req, res) => {
-  res.sendFile(__dirname + '/public/note.html')
-})
-
 app.post('/notes', async (req, res) => {
   const { content } =
     req.body /** Content-Type: application/x-www-form-urlencoded */
@@ -28,10 +24,14 @@ app.post('/notes', async (req, res) => {
   await saveNote(id, content)
   res.send(
     `
-        <p>Compartilhe sua nota através do link:</p>
-        <span>${req.headers.origin}/note/${id}</span>
-      `
+    <p>Compartilhe sua nota através do link:</p>
+    <span><a href="${req.headers.origin}/note/${id}" target="_blank">${req.headers.origin}/note/${id}</a></span>
+    `
   )
+})
+
+app.get('/note/:id', (req, res) => {
+  res.sendFile(__dirname + '/public/note.html')
 })
 
 app.get('/share/:id', async (req, res) => {
@@ -47,6 +47,8 @@ app.get('/share/:id', async (req, res) => {
   if (!note.opened_at) {
     await markAsOpened(id)
   }
+
+  res.send(note.content)
 })
 
 app.listen(PORT, () => {

@@ -8,9 +8,20 @@
     <script src="/htmx.min.js"></script>
   </head>
   <body>
-    <div class="sticky-note">
-      <div class="content">O que passa na cabeça dele?</div>
-      <button>Compartilhar</button>
+    <div
+      hx-trigger="load"
+      hx-target="#content"
+      hx-swap="innerHTML"
+      class="sticky-note"
+    >
+      <div id="content" class="content"></div>
     </div>
+
+    <script>
+      const id = location.pathname.split('/').pop()
+      document
+        .querySelector('.sticky-note')
+        .setAttribute('hx-get', `/share/${id}`)
+    </script>
   </body>
 </html>
