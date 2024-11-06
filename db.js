@@ -29,7 +29,7 @@ const saveNote = (id, content) =>
 
 const getNote = (id) =>
   new Promise((res, rej) => {
-    db.run(
+    db.get(
       `
         SELECT * FROM notes WHERE id = ?
       `,
